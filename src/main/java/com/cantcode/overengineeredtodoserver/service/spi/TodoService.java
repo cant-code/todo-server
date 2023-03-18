@@ -14,4 +14,6 @@ public interface TodoService {
     Mono<Boolean> addTodo(String userId, TodoModel todoModel);
 
     Flux<TodoModel> getAllTodo(String userId);
+
+    Mono<Long> deleteById(String userId, UUID id);
 }

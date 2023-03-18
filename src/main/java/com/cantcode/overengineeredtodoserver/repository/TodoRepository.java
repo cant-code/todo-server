@@ -30,4 +30,8 @@ public class TodoRepository {
     public Mono<Boolean> save(String userId, TodoEntity todoEntity) {
         return reactiveHashOperations.put(userId, todoEntity.getId(), todoEntity);
     }
+
+    public Mono<Long> deleteById(String userId, UUID id) {
+        return reactiveHashOperations.remove(userId, id);
+    }
 }

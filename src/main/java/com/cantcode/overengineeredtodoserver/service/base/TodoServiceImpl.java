@@ -41,4 +41,10 @@ public class TodoServiceImpl implements TodoService {
         log.info("Called Get All TODO");
         return todoRepository.findAll(userId).map(todoEntity -> new TodoModel(todoEntity.getId(), todoEntity.getTodo()));
     }
+
+    @Override
+    public Mono<Long> deleteById(String userId, UUID id) {
+        log.info("Deleting Todo: {}", id);
+        return todoRepository.deleteById(userId, id);
+    }
 }

@@ -10,6 +10,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class TodoHandler {
@@ -31,5 +33,16 @@ public class TodoHandler {
         return ServerResponse
                 .created(serverRequest.uri())
                 .body(todoId, Boolean.class);
+    }
+
+    public Mono<ServerResponse> deleteTodoById(ServerRequest serverRequest) {
+        UUID id = UUID.fromString(serverRequest.pathVariable("id"));
+        Mono<String> resp = SecurityUtils
+                .getUserId()
+                .flatMap(s -> todoService.deleteById(s, id))
+                .map(aLong -> "Deleted items: " + aLong);
+        return ServerResponse
+                .ok()
+                .body(resp, String.class);
     }
 }

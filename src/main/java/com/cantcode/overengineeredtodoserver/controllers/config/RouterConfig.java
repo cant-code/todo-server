@@ -20,7 +20,8 @@ public class RouterConfig {
         return RouterFunctions.route()
                 .path(APIDefinition.TODO, builder -> builder
                         .GET("/getAll", request -> todoHandler.getAllTodo())
-                        .POST("/save", todoHandler::saveTodo))
+                        .POST("/save", todoHandler::saveTodo)
+                        .DELETE("/{id}", todoHandler::deleteTodoById))
                 .build();
     }
 }
