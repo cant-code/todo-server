@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: OverEngineered-ToDo-Server
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com
+          issuer-uri: https://securetoken.google.com/overengineered-todo
+  webflux:
+    base-path: /api
+server:
+  error:
+    include-stacktrace: never
+
+redis:
+  host: localhost
+  port: 6379
+  password: test

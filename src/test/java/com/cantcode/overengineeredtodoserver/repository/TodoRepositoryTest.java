@@ -10,7 +10,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.shaded.org.apache.commons.lang3.RandomStringUtils;
 import org.testcontainers.utility.DockerImageName;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,6 +17,7 @@ import reactor.test.StepVerifier;
 
 import java.util.UUID;
 
+import static com.cantcode.overengineeredtodoserver.utils.TestObjects.getTodoEntity;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
@@ -37,7 +37,6 @@ class TodoRepositoryTest {
 
     @DynamicPropertySource
     private static void registerRedisProperties(DynamicPropertyRegistry registry) {
-        registry.add("redis.host", REDIS_CONTAINER::getHost);
         registry.add("redis.port", () -> REDIS_CONTAINER.getMappedPort(6379).toString());
     }
 
@@ -50,7 +49,7 @@ class TodoRepositoryTest {
     @Test
     @DisplayName("Find All Todos for user")
     void findAll() {
-        TodoEntity todoEntity = getTodoEntity();
+        TodoEntity todoEntity = getTodoEntity(userId.toString());
         todoRepository.save(userId.toString(), todoEntity).block();
 
         Flux<TodoEntity> val = todoRepository.findAll(String.valueOf(userId));
@@ -63,7 +62,7 @@ class TodoRepositoryTest {
     @Test
     @DisplayName("Find Todo by ID")
     void findById() {
-        TodoEntity todoEntity = getTodoEntity();
+        TodoEntity todoEntity = getTodoEntity(userId.toString());
         todoRepository.save(userId.toString(), todoEntity).block();
 
         Mono<TodoEntity> val = todoRepository.findById(userId.toString(), todoEntity.getId());
@@ -75,7 +74,7 @@ class TodoRepositoryTest {
     @Test
     @DisplayName("Save Todo")
     void save() {
-        TodoEntity todoEntity = getTodoEntity();
+        TodoEntity todoEntity = getTodoEntity(userId.toString());
         Mono<Boolean> val = todoRepository.save(userId.toString(), todoEntity);
 
         StepVerifier.create(val)
@@ -91,20 +90,12 @@ class TodoRepositoryTest {
     @Test
     @DisplayName("Delete todo by ID")
     void deleteById() {
-        TodoEntity todoEntity = getTodoEntity();
+        TodoEntity todoEntity = getTodoEntity(userId.toString());
         todoRepository.save(userId.toString(), todoEntity).block();
 
         Mono<Long> val = todoRepository.deleteById(userId.toString(), todoEntity.getId());
         StepVerifier.create(val)
                 .expectNext(Long.valueOf(1))
                 .verifyComplete();
-    }
-
-    private TodoEntity getTodoEntity() {
-        TodoEntity todoEntity = new TodoEntity();
-        todoEntity.setId(UUID.randomUUID());
-        todoEntity.setUserId(userId.toString());
-        todoEntity.setTodo(RandomStringUtils.randomAlphabetic(20));
-        return todoEntity;
     }
 }
