@@ -57,7 +57,8 @@ public class TodoEndpointsTest {
                 .exchange()
                 .expectStatus()
                 .isCreated()
-                .expectBody();
+                .expectBody(Boolean.class)
+                .isEqualTo(true);
     }
 
     @Test
