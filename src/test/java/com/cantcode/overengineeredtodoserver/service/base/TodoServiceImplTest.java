@@ -1,9 +1,9 @@
 package com.cantcode.overengineeredtodoserver.service.base;
 
-import com.cantcode.overengineeredtodoserver.repository.entities.TodoEntity;
 import com.cantcode.overengineeredtodoserver.repository.models.TodoModel;
 import com.cantcode.overengineeredtodoserver.service.spi.TodoService;
 import com.redis.testcontainers.RedisContainer;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +49,11 @@ class TodoServiceImplTest {
 
         TodoModel todo = todoService.getAllTodo(userId.toString()).blockFirst();
 
-        Mono<TodoEntity> todoEntityMono = todoService.getTodo(userId.toString(), todo.id());
+        Assertions.assertNotNull(todo);
+
+        Mono<TodoModel> todoEntityMono = todoService.getTodo(userId.toString(), todo.id());
         StepVerifier.create(todoEntityMono)
-                .thenConsumeWhile(todoModel1 -> todoModel.todo().equals(todoModel1.getTodo()))
+                .thenConsumeWhile(todoModel1 -> todoModel.todo().equals(todoModel1.todo()))
                 .verifyComplete();
     }
 
@@ -91,6 +93,8 @@ class TodoServiceImplTest {
         todoService.addTodo(userId.toString(), todoModel).block();
 
         TodoModel todoModelFlux = todoService.getAllTodo(userId.toString()).blockFirst();
+
+        Assertions.assertNotNull(todoModelFlux);
 
         Mono<Long> count = todoService.deleteById(userId.toString(), todoModelFlux.id());
 

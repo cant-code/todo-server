@@ -2,6 +2,7 @@ package com.cantcode.overengineeredtodoserver.service.base;
 
 import com.cantcode.overengineeredtodoserver.repository.TodoRepository;
 import com.cantcode.overengineeredtodoserver.repository.entities.TodoEntity;
+import com.cantcode.overengineeredtodoserver.repository.mappers.TodoMapper;
 import com.cantcode.overengineeredtodoserver.repository.models.TodoModel;
 import com.cantcode.overengineeredtodoserver.service.spi.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -17,21 +18,19 @@ import java.util.UUID;
 @Slf4j
 public class TodoServiceImpl implements TodoService {
 
-
     private final TodoRepository todoRepository;
+    private final TodoMapper todoMapper;
 
     @Override
-    public Mono<TodoEntity> getTodo(String userId, UUID id) {
-        return todoRepository.findById(userId, id);
+    public Mono<TodoModel> getTodo(String userId, UUID id) {
+        return todoRepository.findById(userId, id).map(todoMapper::mapTodoEntityToTodoModel);
     }
 
     @Override
     public Mono<Boolean> addTodo(String userId, TodoModel todoModel) {
         log.info("Starting Add Todo");
-        TodoEntity todoEntity = new TodoEntity();
+        TodoEntity todoEntity = todoMapper.mapTodoModelToTodoEntity(todoModel);
         log.debug("User: {}; Entity: {}", userId, todoEntity);
-        todoEntity.setId(UUID.randomUUID());
-        todoEntity.setTodo(todoModel.todo());
         todoEntity.setUserId(userId);
         return todoRepository.save(userId, todoEntity);
     }
@@ -39,7 +38,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Flux<TodoModel> getAllTodo(String userId) {
         log.info("Called Get All TODO");
-        return todoRepository.findAll(userId).map(todoEntity -> new TodoModel(todoEntity.getId(), todoEntity.getTodo()));
+        return todoRepository.findAll(userId).map(todoMapper::mapTodoEntityToTodoModel);
     }
 
     @Override
