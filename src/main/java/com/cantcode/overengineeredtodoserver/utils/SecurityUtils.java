@@ -8,6 +8,9 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class SecurityUtils {
 
+    private SecurityUtils() {
+    }
+
     public static Mono<String> getEmail() {
         return ReactiveSecurityContextHolder.getContext()
                 .map(ctx -> ctx.getAuthentication().getPrincipal())

@@ -14,7 +14,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-public class SecurityControllerTest {
+class SecurityControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -23,7 +23,7 @@ public class SecurityControllerTest {
 
     @Test
     @DisplayName("Get Email from Token")
-    public void getEmailFromToken() {
+    void getEmailFromToken() {
         String email = RandomStringUtils.randomAlphanumeric(5) + "@test.com";
 
         webTestClient.mutateWith(mockJwt()
@@ -42,7 +42,7 @@ public class SecurityControllerTest {
 
     @Test
     @DisplayName("Get User ID from Token")
-    public void getUserIdFromToken() {
+    void getUserIdFromToken() {
         webTestClient.mutateWith(mockJwt()
                         .jwt(builder -> builder
                                 .claim("user_id", userId.toString())

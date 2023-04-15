@@ -27,7 +27,7 @@ import static org.springframework.security.test.web.reactive.server.SecurityMock
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-public class TodoEndpointsTest {
+class TodoEndpointsTest {
 
     @Autowired
     private WebTestClient webTestClient;
@@ -47,7 +47,7 @@ public class TodoEndpointsTest {
 
     @Test
     @DisplayName("Call Save Todo with correct token and return 201 Status")
-    public void saveTodoReturnsIsCreatedStatus() {
+    void saveTodoReturnsIsCreatedStatus() {
         webTestClient.mutateWith(mockJwt()
                         .jwt(builder -> builder.claim("user_id", userId.toString()))
                 )
@@ -63,7 +63,7 @@ public class TodoEndpointsTest {
 
     @Test
     @DisplayName("Return 401 Unauthorized when no token is passed")
-    public void saveTodoReturnsUnauthorized() {
+    void saveTodoReturnsUnauthorized() {
         webTestClient
                 .post().uri("/todo/save")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,7 +75,7 @@ public class TodoEndpointsTest {
 
     @Test
     @DisplayName("Get all Todos")
-    public void getAllTodo() {
+    void getAllTodo() {
         this.saveTodoReturnsIsCreatedStatus();
 
         List<TodoModel> response = webTestClient.mutateWith(mockJwt()
@@ -95,7 +95,7 @@ public class TodoEndpointsTest {
 
     @Test
     @DisplayName("Delete todo by ID")
-    public void deleteTodo() {
+    void deleteTodo() {
         this.saveTodoReturnsIsCreatedStatus();
 
         List<TodoModel> response = webTestClient.mutateWith(mockJwt()
