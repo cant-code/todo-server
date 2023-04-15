@@ -49,7 +49,9 @@ public class RouterConfig {
                             responses = {
                                     @ApiResponse(responseCode = "201", description = "Successful Operation",
                                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                                    schema = @Schema(implementation = Boolean.class)))
+                                                    schema = @Schema(implementation = Boolean.class))),
+                                    @ApiResponse(responseCode = "400", description = "Bad Request",
+                                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
                             })),
             @RouterOperation(
                     path = APIDefinition.TODO + "/{id}",
@@ -60,7 +62,9 @@ public class RouterConfig {
                             responses = {
                                     @ApiResponse(responseCode = "200", description = "Successful Operation",
                                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                                    schema = @Schema(implementation = String.class, example = "Test")))
+                                                    schema = @Schema(implementation = String.class, example = "Test"))),
+                                    @ApiResponse(responseCode = "404", description = "Todo Not Found",
+                                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
                             }))
     })
     @Bean
