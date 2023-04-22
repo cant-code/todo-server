@@ -17,6 +17,8 @@
         <java.version>17</java.version>
         <sonar.organization>cant-code</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.links.homepage>https://github.com/cant-code/todo-server</sonar.links.homepage>
+        <sonar.links.scm>https://github.com/cant-code/todo-server.git</sonar.links.scm>
 
         <testcontainers-bom.version>1.18.0</testcontainers-bom.version>
         <springdoc.version>2.1.0</springdoc.version>
