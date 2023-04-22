@@ -1,3 +1,8 @@
+# Build Badges
+
+[![SonarCloud](https://github.com/cant-code/todo-server/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/cant-code/todo-server/actions/workflows/build.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cant-code_todo-server&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cant-code_todo-server)
+
 # Getting Started
 
 ### Technologies Used
