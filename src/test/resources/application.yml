@@ -9,11 +9,11 @@ spring:
           issuer-uri: https://securetoken.google.com/overengineered-todo
   webflux:
     base-path: /api
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: test
 server:
   error:
     include-stacktrace: never
-
-redis:
-  host: localhost
-  port: 6379
-  password: test

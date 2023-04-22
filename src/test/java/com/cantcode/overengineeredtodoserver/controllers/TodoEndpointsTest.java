@@ -1,7 +1,7 @@
 package com.cantcode.overengineeredtodoserver.controllers;
 
 import com.cantcode.overengineeredtodoserver.repository.models.TodoModel;
-import com.redis.testcontainers.RedisContainer;
+import com.cantcode.overengineeredtodoserver.utils.AbstractTestContainers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,40 +10,23 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.cantcode.overengineeredtodoserver.utils.TestObjects.getTodoModel;
-import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.*;
+import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockJwt;
 
-@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-class TodoEndpointsTest {
+class TodoEndpointsTest extends AbstractTestContainers {
 
     @Autowired
     private WebTestClient webTestClient;
 
     private final UUID userId = UUID.randomUUID();
-
-    @Container
-    private static final RedisContainer REDIS_CONTAINER = new RedisContainer(DockerImageName.parse("redis:7.0.9-alpine"))
-            .withEnv("REDIS_PASSWORD", "test")
-            .withCommand("redis-server", "--requirepass", "test")
-            .withExposedPorts(6379);
-
-    @DynamicPropertySource
-    private static void registerRedisProperties(DynamicPropertyRegistry registry) {
-        registry.add("redis.port", () -> REDIS_CONTAINER.getMappedPort(6379).toString());
-    }
 
     @Test
     @DisplayName("Call Save Todo with correct token and return 201 Status")

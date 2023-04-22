@@ -1,16 +1,13 @@
 package com.cantcode.overengineeredtodoserver.repository;
 
+import com.cantcode.overengineeredtodoserver.config.utils.RedisConfig;
 import com.cantcode.overengineeredtodoserver.repository.entities.TodoEntity;
-import com.redis.testcontainers.RedisContainer;
+import com.cantcode.overengineeredtodoserver.utils.AbstractTestContainers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.context.annotation.Import;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -20,25 +17,14 @@ import java.util.UUID;
 import static com.cantcode.overengineeredtodoserver.utils.TestObjects.getTodoEntity;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Testcontainers
-@SpringBootTest
-class TodoRepositoryTest {
-
-    @Container
-    private static final RedisContainer REDIS_CONTAINER = new RedisContainer(DockerImageName.parse("redis:7.0.9-alpine"))
-            .withEnv("REDIS_PASSWORD", "test")
-            .withCommand("redis-server", "--requirepass", "test")
-            .withExposedPorts(6379);
+@DataRedisTest
+@Import({ TodoRepository.class, RedisConfig.class })
+class TodoRepositoryTest extends AbstractTestContainers {
 
     private static final UUID userId = UUID.randomUUID();
 
     @Autowired
     private TodoRepository todoRepository;
-
-    @DynamicPropertySource
-    private static void registerRedisProperties(DynamicPropertyRegistry registry) {
-        registry.add("redis.port", () -> REDIS_CONTAINER.getMappedPort(6379).toString());
-    }
 
     @Test
     @DisplayName("Test if Redis Container is Running")

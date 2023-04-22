@@ -2,17 +2,12 @@ package com.cantcode.overengineeredtodoserver.service.base;
 
 import com.cantcode.overengineeredtodoserver.repository.models.TodoModel;
 import com.cantcode.overengineeredtodoserver.service.spi.TodoService;
-import com.redis.testcontainers.RedisContainer;
+import com.cantcode.overengineeredtodoserver.utils.AbstractTestContainers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -21,25 +16,13 @@ import java.util.UUID;
 
 import static com.cantcode.overengineeredtodoserver.utils.TestObjects.getTodoModel;
 
-@Testcontainers
 @SpringBootTest
-class TodoServiceImplTest {
-
-    @Container
-    private static final RedisContainer REDIS_CONTAINER = new RedisContainer(DockerImageName.parse("redis:7.0.9-alpine"))
-            .withEnv("REDIS_PASSWORD", "test")
-            .withCommand("redis-server", "--requirepass", "test")
-            .withExposedPorts(6379);
+class TodoServiceImplTest extends AbstractTestContainers {
 
     @Autowired
     private TodoService todoService;
 
     private final UUID userId = UUID.randomUUID();
-
-    @DynamicPropertySource
-    private static void registerRedisProperties(DynamicPropertyRegistry registry) {
-        registry.add("redis.port", () -> REDIS_CONTAINER.getMappedPort(6379).toString());
-    }
 
     @Test
     @DisplayName("Get Todo")

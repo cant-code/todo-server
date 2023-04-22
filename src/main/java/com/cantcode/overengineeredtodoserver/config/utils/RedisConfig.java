@@ -21,9 +21,9 @@ import java.util.UUID;
 public class RedisConfig {
 
     @Bean
-    public LettuceConnectionFactory redisConnectionFactory(@Value("${redis.host}") String host,
-                                                           @Value("${redis.port}") int port,
-                                                           @Value("${redis.password}") String password) {
+    public LettuceConnectionFactory redisConnectionFactory(@Value("${spring.data.redis.host}") String host,
+                                                           @Value("${spring.data.redis.port}") int port,
+                                                           @Value("${spring.data.redis.password}") String password) {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port);
         redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
         return new LettuceConnectionFactory(redisStandaloneConfiguration);

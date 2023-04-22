@@ -12,7 +12,10 @@
 ### Running on Local
 
 * Add the Redis connection details in the application.yml file
-  * redis.host, redis.port, redis.username, redis.password
+  * spring.data.redis.host
+  * spring.data.redis.port
+  * spring.data.redis.username
+  * spring.data.redis.password
 * Activate any profiles if necessary
 * Run the application
 
