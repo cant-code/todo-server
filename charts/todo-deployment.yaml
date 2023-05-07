@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo
+  labels:
+    name: todo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: todo
+  template:
+    metadata:
+      labels:
+        name: todo
+    spec:
+      containers:
+        - name: todo-server
+          image: registry.digitalocean.com/cant-code-registry/todo:latest
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          ports:
+            - containerPort: 8080
+          securityContext:
+            runAsNonRoot: true
