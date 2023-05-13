@@ -14,7 +14,6 @@ spec:
       annotations:
         vault.hashicorp.com/agent-inject: 'true'
         vault.hashicorp.com/agent-inject-secret-todo: secret/dev/redis
-        vault.hashicorp.com/agent-inject-status: update
         vault.hashicorp.com/agent-inject-template-todo: |
           {{`{{- with secret "secret/dev/redis" -}}`}}
             export SPRING_DATA_REDIS_PASSWORD={{`{{ .Data.data.password }}`}}
