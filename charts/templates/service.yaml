@@ -12,7 +12,7 @@ spec:
       protocol: TCP
       name: http
     - port: {{ .Values.management.port }}
-      targetPort: management
+      targetPort: {{ .Values.management.port }}
       protocol: TCP
       name: management
   selector:

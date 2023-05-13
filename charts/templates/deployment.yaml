@@ -25,11 +25,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: management
+              port: {{ .Values.management.port }}
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: management
+              port: {{ .Values.management.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
