@@ -26,3 +26,8 @@ spec:
               memory: 256Mi
           ports:
             - containerPort: 8080
+          env:
+            - name: hostname
+              value: redis-13019.c305.ap-south-1-1.ec2.cloud.redislabs.com
+            - name: port
+              value: '13019'
