@@ -13,7 +13,7 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf().disable()
                 .authorizeExchange(authorize -> authorize
-                        .pathMatchers("/v3/api-docs**", "/swagger-ui**", "/webjars/swagger-ui/**", "/v3/api-docs/**")
+                        .pathMatchers("/v3/api-docs**", "/swagger-ui**", "/webjars/swagger-ui/**", "/v3/api-docs/**", "/actuator/**")
                         .permitAll()
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt)

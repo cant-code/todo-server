@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.management.port }}
+      targetPort: management
+      protocol: TCP
+      name: management
   selector:
     {{- include "charts.selectorLabels" . | nindent 4 }}
