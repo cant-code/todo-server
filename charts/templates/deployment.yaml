@@ -16,11 +16,11 @@ spec:
         vault.hashicorp.com/agent-inject-secret-todo: secret/dev/redis
         vault.hashicorp.com/agent-inject-status: update
         vault.hashicorp.com/agent-inject-template-todo: |
-          '{{`{{- with secret "secret/dev/redis" -}}`}}'
+          {{`{{- with secret "secret/dev/redis" -}}`}}
             EXPORT SPRING_DATA_REDIS_PASSWORD="{{`{{ .Data.data.password }}`}}"
             EXPORT SPRING_DATA_REDIS_HOST="{{`{{ .Data.data.host }}`}}"
             EXPORT SPRING_DATA_REDIS_PORT="{{`{{ .Data.data.port }}`}}"
-          '{{`{{- end }}`}}'
+          {{`{{- end }}`}}
         vault.hashicorp.com/namespace: todo
         vault.hashicorp.com/role: todo
       labels:
@@ -49,6 +49,10 @@ spec:
               port: {{ .Values.management.port }}
             initialDelaySeconds: 60
             periodSeconds: 3
+          command:
+            ['sh', '-c']
+          args:
+            ['source /vault/secrets/todo && java -jar app.jar']
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
