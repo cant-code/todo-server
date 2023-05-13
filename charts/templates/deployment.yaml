@@ -22,14 +22,21 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+            - name: actuator
+              containerPort: 18080
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: {{ .Values.management.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: {{ .Values.management.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
