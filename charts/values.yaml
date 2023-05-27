@@ -18,6 +18,10 @@ management:
   type: ClusterIP
   port: 18080
 
+probes:
+  initialDelaySeconds: 60
+  periodSeconds: 30
+
 ingress:
   enabled: false
   className: ""

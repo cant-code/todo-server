@@ -29,20 +29,20 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
             - name: actuator
-              containerPort: 18080
+              containerPort: {{ .Values.management.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: {{ .Values.management.port }}
-            initialDelaySeconds: 60
-            periodSeconds: 30
+            initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.periodSeconds }}
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: {{ .Values.management.port }}
-            initialDelaySeconds: 60
-            periodSeconds: 30
+            initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.periodSeconds }}
           command: ['/bin/sh', '-c']
           args: ['source /vault/secrets/todo && java -jar app.jar']
           resources:
