@@ -25,7 +25,7 @@ data:
     "pid_file" = "/home/vault/.pid"
 
     "template" = {
-      "destination" = "/vault/secrets/application-vault.properties"
+      "destination" = "/vault/secrets/todo"
       "contents" = <<EOT
       {{`{{- with secret "secret/dev/redis" -}}`}}
       spring.data.redis.host={{`{{ .Data.data.host }}`}}
