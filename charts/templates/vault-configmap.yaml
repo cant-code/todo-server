@@ -27,11 +27,11 @@ data:
     "template" = {
       "destination" = "/vault/secrets/application-vault.properties"
       "contents" = <<EOT
-      "{{- with secret "secret/dev/redis" -}}
-      spring.data.redis.host={{ .Data.data.password }}
+      {{`{{- with secret "secret/dev/redis" -}}`}}
+      spring.data.redis.host={{`{{ .Data.data.host }}`}}
       spring.data.redis.password={{`{{ .Data.data.password }}`}}
       spring.data.redis.port={{`{{ .Data.data.port }}`}}
-      {{- end }}"
+      {{`{{- end }}`}}
       EOT
     }
   
