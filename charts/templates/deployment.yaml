@@ -48,9 +48,9 @@ spec:
           args: ['source /vault/secrets/todo && java -jar app.jar']
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
       imagePullSecrets:
         - name: regcred
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
