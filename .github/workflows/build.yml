@@ -15,6 +15,7 @@ jobs:
       SONAR_PROJECT_KEY: cant-code_todo-server
       ARTIFACT_NAME: todo
       ARTIFACT_PATH: target/overengineered*.jar
+    secrets: inherit
 
   create-image:
     name: Build Image and Push
@@ -24,3 +25,4 @@ jobs:
       DOCKER_TAG: damnationcantcode/todo-backend
       ARTIFACT_NAME: todo
       ARTIFACT_PATH: target
+    secrets: inherit
