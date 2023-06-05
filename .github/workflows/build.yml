@@ -11,5 +11,7 @@ jobs:
   build:
     uses: cant-code/github-workflows/.github/workflows/java-spring-workflow.yml@main
     name: Build and verify
+    with:
+      SONAR_PROJECT_KEY: cant-code_todo-server
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
