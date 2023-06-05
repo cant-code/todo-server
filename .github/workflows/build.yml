@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    uses: cant-code/github-workflows/.github/workflows/java-spring-workflow.yml
+    uses: cant-code/github-workflows/.github/workflows/java-spring-workflow.yml@main
     name: Build and verify
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
