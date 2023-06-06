@@ -1,0 +1,26 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: cant-code/github-workflows/.github/workflows/java-spring-workflow.yml@main
+    name: Build and verify
+    with:
+      SONAR_PROJECT_KEY: cant-code_todo-server
+      ARTIFACT_NAME: todo
+      ARTIFACT_PATH: target/overengineered*.jar
+    secrets: inherit
+
+  create-image:
+    name: Build Image and Push
+    needs: build
+    uses: cant-code/github-workflows/.github/workflows/docker-push.yml@main
+    with:
+      DOCKER_TAG: damnationcantcode/todo-backend
+      ARTIFACT_NAME: todo
+      ARTIFACT_PATH: target
+    secrets: inherit

@@ -1,9 +1,6 @@
-name: SonarCloud
+name: Build and Verify change
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types: [ opened, synchronize, reopened ]
 
@@ -15,14 +12,4 @@ jobs:
       SONAR_PROJECT_KEY: cant-code_todo-server
       ARTIFACT_NAME: todo
       ARTIFACT_PATH: target/overengineered*.jar
-    secrets: inherit
-
-  create-image:
-    name: Build Image and Push
-    needs: build
-    uses: cant-code/github-workflows/.github/workflows/docker-push.yml@main
-    with:
-      DOCKER_TAG: damnationcantcode/todo-backend
-      ARTIFACT_NAME: todo
-      ARTIFACT_PATH: target
     secrets: inherit
