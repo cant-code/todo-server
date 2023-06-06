@@ -41,6 +41,8 @@ The application runs on port 8080 by default with context `/api`
 * [API Endpoint](http://localhost:8080/api/)
 * [Swagger UI](http://localhost:8080/api/webjars/swagger-ui/index.html)
 
+Management Port runs on 18080 by default
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
