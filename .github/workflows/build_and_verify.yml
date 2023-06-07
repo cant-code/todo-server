@@ -12,4 +12,5 @@ jobs:
       SONAR_PROJECT_KEY: cant-code_todo-server
       ARTIFACT_NAME: todo
       ARTIFACT_PATH: target/overengineered*.jar
+      CREATE_ARTIFACT: false
     secrets: inherit
